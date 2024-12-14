@@ -221,12 +221,11 @@ function BrainModel() {
 }
 
 interface SceneProps {
-  setHovered: (part: BrainPart | null) => void;
   setSelected: (part: BrainPart) => void;
   cameraTarget: BrainPart | null;
 }
 
-function Scene({ setHovered, setSelected, cameraTarget }: SceneProps) {
+function Scene({ setSelected, cameraTarget }: SceneProps) {
   const { camera } = useThree()
 
   useEffect(() => {
@@ -253,7 +252,6 @@ function Scene({ setHovered, setSelected, cameraTarget }: SceneProps) {
 }
 
 export default function InteractiveBrainModel() {
-  const [hovered, setHovered] = useState<BrainPart | null>(null)
   const [selected, setSelected] = useState<BrainPart | null>(null)
   const [expandedPart, setExpandedPart] = useState<BrainPart | null>(null)
   const [cameraTarget, setCameraTarget] = useState<BrainPart | null>(null)
@@ -291,7 +289,6 @@ export default function InteractiveBrainModel() {
       <div className="w-3/4 relative">
         <Canvas shadows>
           <Scene 
-            setHovered={setHovered} 
             setSelected={handlePartClick} 
             cameraTarget={cameraTarget} 
           />
