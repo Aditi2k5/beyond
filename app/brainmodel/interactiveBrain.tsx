@@ -2,9 +2,64 @@
 
 import React, { useRef, useState, useEffect } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { OrbitControls, useGLTF, Text } from '@react-three/drei'
+import { OrbitControls, useGLTF, shaderMaterial } from '@react-three/drei'
 import * as THREE from 'three'
+import { extend } from '@react-three/fiber'
 import { ChevronDown, ChevronUp } from 'lucide-react'
+
+// Shader for semi-transparent brain with internal details
+const TransparentBrainMaterial = shaderMaterial(
+  { 
+    time: 0, 
+    baseColor: new THREE.Color(0.1, 0.1, 0.1),  // Dark gray/black
+    glowIntensity: 0.3 
+  },
+  // Vertex Shader
+  `
+    uniform float time;
+    varying vec2 vUv;
+    varying vec3 vPosition;
+    varying vec3 vNormal;
+
+    void main() {
+      vUv = uv;
+      vPosition = position;
+      vNormal = normal;
+      
+      // Subtle internal movement
+      vec3 pos = position + normal * sin(position.y * 3.0 + time) * 0.02;
+      
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+    }
+  `,
+  // Fragment Shader
+  `
+    uniform float time;
+    uniform vec3 baseColor;
+    uniform float glowIntensity;
+    
+    varying vec2 vUv;
+    varying vec3 vPosition;
+    varying vec3 vNormal;
+
+    void main() {
+      // Create subtle internal line-like effect
+      float internalDetail = sin(vPosition.y * 20.0 + time * 0.3);
+      float detailIntensity = smoothstep(0.8, 1.0, abs(internalDetail));
+      
+      // Base color with internal details
+      vec3 finalColor = baseColor + vec3(detailIntensity * 0.1);
+      
+      // Rim lighting effect for depth
+      float rimLight = pow(1.0 - abs(dot(vNormal, vec3(0.0, 0.0, 1.0))), 3.0);
+      
+      gl_FragColor = vec4(finalColor + vec3(rimLight * 0.2), 0.3);  // Semi-transparent
+    }
+  `
+)
+
+// Register the custom shader material
+extend({ TransparentBrainMaterial })
 
 interface BrainPart {
   name: string;
@@ -142,6 +197,26 @@ function CameraController({ target }: CameraControllerProps) {
 
 function BrainModel() {
   const { scene } = useGLTF('/model/brain.glb')
+  const materialRef = useRef<any>(null)
+  
+  useFrame((state) => {
+    if (materialRef.current) {
+      materialRef.current.time = state.clock.elapsedTime
+    }
+  })
+
+  // Modify the model's material to our custom shader
+  useEffect(() => {
+    scene.traverse((child) => {
+      if (child instanceof THREE.Mesh) {
+        const material = new TransparentBrainMaterial()
+        child.material = material
+        child.material.transparent = true
+        child.material.depthWrite = false
+      }
+    })
+  }, [scene])
+
   return <primitive object={scene} position={[1, -1, 0]} scale={[1, 1, 1]} />
 }
 
@@ -164,7 +239,7 @@ function Scene({ setHovered, setSelected, cameraTarget }: SceneProps) {
       <BrainModel />
       {brainParts.map((part, index) => (
         <group key={index} position={part.position}>
-          {/* Your group content here */}
+          {/* Placeholder for potential future interactions */}
         </group>
       ))}
       <ambientLight intensity={0.5} />
@@ -221,13 +296,6 @@ export default function InteractiveBrainModel() {
             cameraTarget={cameraTarget} 
           />
         </Canvas>
-        {/* <div className="absolute bottom-4 left-0 right-0 bg-black bg-opacity-75 text-pink-700 p-4 text-center">
-          {hovered ? (
-            <p>{hovered.name}</p>
-          ) : (
-            <p>Hover over or click brain regions to learn more</p>
-          )}
-        </div> */}
       </div>
     </div>
   )
