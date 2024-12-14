@@ -63,95 +63,69 @@ extend({ TransparentBrainMaterial })
 
 interface BrainPart {
   name: string;
-  color: number;
   position: [number, number, number];
-  scale: [number, number, number];
   info: string;
 }
 
 const brainParts: BrainPart[] = [
   {
     name: 'Frontal Lobe',
-    color: 0x000000,
     position: [0, 2.5, 0.5],
-    scale: [0.2, 0.2, 0.2],
     info: 'Controls executive functions, personality, behavior, emotional regulation, planning, problem-solving, and voluntary movement.'
   },
   {
     name: 'Prefrontal Cortex',
-    color: 0x000000,
     position: [0, 2.3, 2],
-    scale: [0.2, 0.2, 0.2],
     info: 'Handles complex cognitive behaviors, personality expression, decision making, and social behavior.'
   },
   {
     name: 'Temporal Lobe',
-    color: 0x000000,
     position: [2.5, 0, 0],
-    scale: [0.2, 0.2, 0.2],
     info: 'Processes auditory information, manages memory formation, and helps recognize objects and faces.'
   },
   {
     name: 'Hippocampus',
-    color: 0x000000,
     position: [2.2, -0.3, 0.2],
-    scale: [0.2, 0.2, 0.2],
     info: 'Critical for learning and memory formation, especially long-term memory.'
   },
   {
     name: 'Parietal Lobe',
-    color: 0x000000,
     position: [0, 0.5, -0.8],
-    scale: [0.2, 0.2, 0.2],
     info: 'Processes sensory information, spatial awareness, and navigation.'
   },
   {
     name: 'Occipital Lobe',
-    color: 0x000000,
     position: [-0.8, 0, -1],
-    scale: [0.2, 0.2, 0.2],
     info: 'Visual processing center, interprets what we see.'
   },
   {
     name: 'Cerebellum',
-    color: 0x000000,
     position: [-0.3, -1.2, -0.8],
-    scale: [0.2, 0.2, 0.2],
     info: 'Coordinates movement, balance, and motor learning.'
   },
   {
     name: 'Brain Stem',
-    color: 0x000000,
     position: [0, -1.5, -0.3],
-    scale: [0.2, 0.2, 0.2],
     info: 'Controls basic life functions like breathing, heart rate, blood pressure, and consciousness.'
   },
   {
     name: 'Amygdala',
-    color: 0x000000,
     position: [1.8, -0.5, 0.3],
-    scale: [0.2, 0.2, 0.2],
     info: 'Processes emotions, especially fear and pleasure responses.'
   },
   {
     name: 'Thalamus',
-    color: 0x000000,
     position: [0, -0.2, 0],
-    scale: [0.2, 0.2, 0.2],
     info: 'Relays sensory and motor signals to the cerebral cortex.'
   },
   {
     name: 'Hypothalamus',
-    color: 0x000000,
     position: [0, -0.6, 0.2],
-    scale: [0.2, 0.2, 0.2],
     info: 'Regulates hormone production, temperature, hunger, thirst, and sleep cycles.'
   },
   {
     name: 'Corpus Callosum',
-    color: 0x000000,
     position: [0, 0.3, 0],
-    scale: [0.2, 0.2, 0.2],
     info: 'Connects left and right hemispheres, allowing them to communicate.'
   }
 ];
@@ -221,11 +195,10 @@ function BrainModel() {
 }
 
 interface SceneProps {
-  setSelected: (part: BrainPart) => void;
   cameraTarget: BrainPart | null;
 }
 
-function Scene({ setSelected, cameraTarget }: SceneProps) {
+function Scene({ cameraTarget }: SceneProps) {
   const { camera } = useThree()
 
   useEffect(() => {
@@ -288,10 +261,7 @@ export default function InteractiveBrainModel() {
 
       <div className="w-3/4 relative">
         <Canvas shadows>
-          <Scene 
-            setSelected={handlePartClick} 
-            cameraTarget={cameraTarget} 
-          />
+          <Scene cameraTarget={cameraTarget} />
         </Canvas>
       </div>
     </div>
