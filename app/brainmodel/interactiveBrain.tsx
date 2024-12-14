@@ -64,6 +64,7 @@ extend({ TransparentBrainMaterial })
 interface BrainPart {
   name: string;
   position: [number, number, number];
+  scale: [number, number, number];
   info: string;
 }
 
@@ -71,61 +72,73 @@ const brainParts: BrainPart[] = [
   {
     name: 'Frontal Lobe',
     position: [0, 2.5, 0.5],
+    scale: [0.2, 0.2, 0.2],
     info: 'Controls executive functions, personality, behavior, emotional regulation, planning, problem-solving, and voluntary movement.'
   },
   {
     name: 'Prefrontal Cortex',
     position: [0, 2.3, 2],
+    scale: [0.2, 0.2, 0.2],
     info: 'Handles complex cognitive behaviors, personality expression, decision making, and social behavior.'
   },
   {
     name: 'Temporal Lobe',
     position: [2.5, 0, 0],
+    scale: [0.2, 0.2, 0.2],
     info: 'Processes auditory information, manages memory formation, and helps recognize objects and faces.'
   },
   {
     name: 'Hippocampus',
     position: [2.2, -0.3, 0.2],
+    scale: [0.2, 0.2, 0.2],
     info: 'Critical for learning and memory formation, especially long-term memory.'
   },
   {
     name: 'Parietal Lobe',
     position: [0, 0.5, -0.8],
+    scale: [0.2, 0.2, 0.2],
     info: 'Processes sensory information, spatial awareness, and navigation.'
   },
   {
     name: 'Occipital Lobe',
     position: [-0.8, 0, -1],
+    scale: [0.2, 0.2, 0.2],
     info: 'Visual processing center, interprets what we see.'
   },
   {
     name: 'Cerebellum',
     position: [-0.3, -1.2, -0.8],
+    scale: [0.2, 0.2, 0.2],
     info: 'Coordinates movement, balance, and motor learning.'
   },
   {
     name: 'Brain Stem',
     position: [0, -1.5, -0.3],
+    scale: [0.2, 0.2, 0.2],
     info: 'Controls basic life functions like breathing, heart rate, blood pressure, and consciousness.'
   },
   {
     name: 'Amygdala',
     position: [1.8, -0.5, 0.3],
+    scale: [0.2, 0.2, 0.2],
     info: 'Processes emotions, especially fear and pleasure responses.'
   },
   {
     name: 'Thalamus',
     position: [0, -0.2, 0],
+    scale: [0.2, 0.2, 0.2],
     info: 'Relays sensory and motor signals to the cerebral cortex.'
   },
   {
     name: 'Hypothalamus',
     position: [0, -0.6, 0.2],
+    scale: [0.2, 0.2, 0.2],
     info: 'Regulates hormone production, temperature, hunger, thirst, and sleep cycles.'
   },
   {
     name: 'Corpus Callosum',
     position: [0, 0.3, 0],
+    scale: [0.2, 0.2, 0.2],
     info: 'Connects left and right hemispheres, allowing them to communicate.'
   }
 ];
