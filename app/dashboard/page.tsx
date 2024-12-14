@@ -13,7 +13,7 @@ export default function Dashboard() {
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-br from-bbb-yellow to-white">
       <Sidebar activeSection={activeSection} setActiveSection={setActiveSection} />
-      <main className="md:ml-64 pt-20 md:pt-0">
+      <main className="sm:ml-32 pt-16 md:pt-0">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
