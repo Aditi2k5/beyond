@@ -241,6 +241,7 @@ export default function InteractiveBrainModel() {
   const [selected, setSelected] = useState<BrainPart | null>(null)
   const [expandedPart, setExpandedPart] = useState<BrainPart | null>(null)
   const [cameraTarget, setCameraTarget] = useState<BrainPart | null>(null)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true)
 
   const handlePartClick = (part: BrainPart) => {
     setSelected(part)
@@ -249,8 +250,21 @@ export default function InteractiveBrainModel() {
   }
 
   return (
-    <div className="flex w-full h-[600px] relative">
-      <div className="w-1/4 bg-gray-100 p-4 overflow-y-auto">
+    <div className="flex flex-col lg:flex-row w-full h-[600px] relative">
+      {/* Sidebar Toggle Button (visible on mobile) */}
+      <button
+        className="lg:hidden absolute top-2 right-2 z-10 bg-bbb-purple text-white p-2 rounded"
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+      >
+        {isSidebarOpen ? 'Hide Parts' : 'Show Parts'}
+      </button>
+
+      {/* Sidebar */}
+      <div
+        className={`${
+          isSidebarOpen ? 'block' : 'hidden'
+        } lg:block w-full lg:w-1/4 bg-gray-100 p-4 overflow-y-auto h-[300px] lg:h-full`}
+      >
         <h2 className="text-xl font-bold mb-4">Brain Parts</h2>
         {brainParts.map((part, index) => (
           <div key={index} className="mb-2">
@@ -260,7 +274,7 @@ export default function InteractiveBrainModel() {
               }`}
               onClick={() => handlePartClick(part)}
             >
-              <span>{part.name}</span>
+              <span className="text-sm lg:text-base">{part.name}</span>
               {expandedPart === part ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
             </button>
             {expandedPart === part && (
@@ -272,7 +286,8 @@ export default function InteractiveBrainModel() {
         ))}
       </div>
 
-      <div className="w-3/4 relative">
+      {/* 3D Brain Canvas */}
+      <div className="w-full lg:w-3/4 h-[300px] lg:h-full relative">
         <Canvas shadows>
           <Scene cameraTarget={cameraTarget} />
         </Canvas>
