@@ -7,10 +7,10 @@ import { motion } from 'framer-motion'
 interface MedicalExplanation {
   term: string;
   simple_explanation: string;
-  signs: string[];
-  care_tips: string[];
+  signs: string;
+  care_tips: string;
   when_to_consult: string;
-  conversational_tone: string[];
+  conversational_tone: string;
 }
 
 export function ChatInterface() {
@@ -25,7 +25,7 @@ export function ChatInterface() {
     setExplanation(null)
 
     try {
-      const response = await fetch(`/api/chat?term=${term}`);
+      const response = await fetch(`/api/medical-explanation?term=${encodeURIComponent(term)}`);
       
       if (!response.ok) {
         throw new Error('Failed to fetch medical explanation');
@@ -110,14 +110,14 @@ export function ChatInterface() {
               <div className="space-y-2">
                 <h4 className="font-semibold text-bbb-purple/80">Signs:</h4>
                 <ul className="list-disc list-inside text-sm md:text-base">
-                  {explanation.signs.map((sign, index) => (
+                  {explanation.signs.split(', ').map((sign, index) => (
                     <li key={index} className="text-bbb-black/80">{sign}</li>
                   ))}
                 </ul>
 
                 <h4 className="font-semibold text-bbb-purple/80 mt-2">Care Tips:</h4>
                 <ul className="list-disc list-inside text-sm md:text-base">
-                  {explanation.care_tips.map((tip, index) => (
+                  {explanation.care_tips.split(', ').map((tip, index) => (
                     <li key={index} className="text-bbb-black/80">{tip}</li>
                   ))}
                 </ul>
