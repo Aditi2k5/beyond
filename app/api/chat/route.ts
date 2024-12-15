@@ -16,7 +16,7 @@ export async function GET(request: Request) {
   try {
     // Call the FastAPI backend
     const response = await fetch(
-      `https://fast-540108306777.us-central1.run.app/medical-explanation?term=${term}`,
+      `https://idk-540108306777.us-central1.run.app/medical-explanation?term=${term}`,
       {
         method: 'GET',
         headers: {
