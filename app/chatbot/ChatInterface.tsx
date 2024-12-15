@@ -25,7 +25,7 @@ export function ChatInterface() {
     setExplanation(null)
 
     try {
-      const response = await fetch(`/api/medical-explanation?term=${encodeURIComponent(term)}`);
+      const response = await fetch(`/api/chat?term=${encodeURIComponent(term)}`);
       
       if (!response.ok) {
         throw new Error('Failed to fetch medical explanation');
