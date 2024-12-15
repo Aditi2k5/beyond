@@ -110,16 +110,30 @@ export function ChatInterface() {
               <div className="space-y-2">
                 <h4 className="font-semibold text-bbb-purple/80">Signs:</h4>
                 <ul className="list-disc list-inside text-sm md:text-base">
-                  {explanation.signs.split(', ').map((sign, index) => (
-                    <li key={index} className="text-bbb-black/80">{sign}</li>
-                  ))}
+                  {typeof explanation.signs === 'string' 
+                    ? explanation.signs.split(', ').map((sign, index) => (
+                        <li key={index} className="text-bbb-black/80">{sign}</li>
+                      ))
+                    : Array.isArray(explanation.signs)
+                      ? explanation.signs.map((sign, index) => (
+                          <li key={index} className="text-bbb-black/80">{sign}</li>
+                        ))
+                      : <li className="text-bbb-black/80">{String(explanation.signs)}</li>
+                  }
                 </ul>
 
                 <h4 className="font-semibold text-bbb-purple/80 mt-2">Care Tips:</h4>
                 <ul className="list-disc list-inside text-sm md:text-base">
-                  {explanation.care_tips.split(', ').map((tip, index) => (
-                    <li key={index} className="text-bbb-black/80">{tip}</li>
-                  ))}
+                  {typeof explanation.care_tips === 'string'
+                    ? explanation.care_tips.split(', ').map((tip, index) => (
+                        <li key={index} className="text-bbb-black/80">{tip}</li>
+                      ))
+                    : Array.isArray(explanation.care_tips)
+                      ? explanation.care_tips.map((tip, index) => (
+                          <li key={index} className="text-bbb-black/80">{tip}</li>
+                        ))
+                      : <li className="text-bbb-black/80">{String(explanation.care_tips)}</li>
+                  }
                 </ul>
 
                 <h4 className="font-semibold text-bbb-purple/80 mt-2">When to Consult:</h4>
